@@ -1,5 +1,5 @@
 pipeline {
-
+	agent any
   environment {
   }
   stages {
@@ -48,5 +48,5 @@ pipeline {
 //   post {
 //     success { echo 'Deployment success' }
 //     failure { echo 'Deployment failed' }
-    }
+  }
 }
