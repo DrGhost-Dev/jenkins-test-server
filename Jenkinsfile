@@ -1,7 +1,6 @@
 pipeline {
 	agent any
-  // environment {
-  // }
+
   stages {
     stage('Checkout') {
       steps {
@@ -9,15 +8,17 @@ pipeline {
         git url: 'https://github.com/DrGhost-Dev/jenkins-test-server.git', branch: 'main'
       }
     }
-//     stage('Docker Build & Push') {
-//       when { expression { return true } } // 필요 시 조건부
-//       steps {
-//         sh '''
-//           docker build -t ${DOCKER_IMAGE}:latest .
-//           docker push ${DOCKER_IMAGE}:latest
-//         '''
-//       }
-//     }
+    // stage('Docker Build & Push') {
+		// 	environment {
+  	// 		DOCKER_IMAGE = "mainnet-node"
+		// 	}
+    //   steps {
+    //     sh '''
+    //       docker build -t ${DOCKER_IMAGE}:latest .
+    //       docker push ${DOCKER_IMAGE}:latest
+    //     '''
+    //   }
+    // }
 //     stage('Deploy to EC2') {
 //       steps {
 //         sshagent([env.EC2_SSH_CRED]) {
