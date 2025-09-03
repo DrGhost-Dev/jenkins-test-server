@@ -14,12 +14,20 @@ pipeline {
         git url: 'https://github.com/DrGhost-Dev/jenkins-test-server.git', branch: 'main'
       }
     }
+    // stage('Docker Image Build') {
+    //   steps {
+    //     sh '''
+    //       docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
+    //       docker build -t ${DOCKER_IMAGE}:latest .
+    //     '''
+    //   }
+    // }
     stage('Docker Image Build') {
       steps {
-        sh '''
-          docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
-          docker build -t ${DOCKER_IMAGE}:latest .
-        '''
+        script {
+          def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+          docker.build(imageName)
+        }
       }
     }
     stage('Push to Harbor') {
