@@ -1,8 +1,10 @@
 pipeline {
 	agent any
   environment {
+    HARBOR_REGISTRY = "harbor.blockgateway.net:8081"
+    HARBOR_PROJECT = "library"
     DOCKER_IMAGE = "mainnet-node"
-    BUILD_NUMBER = "v1"
+    BUILD_NUMBER = "v2"
 	}
 
   stages {
@@ -20,17 +22,28 @@ pipeline {
         '''
       }
     }
-    stage('Harbor Push') {
+    stage('Push to Harbor') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]){
-          sh '''
-            docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} harbor.blockgateway.net:8081/library/${DOCKER_IMAGE}:${BUILD_NUMBER}
-            docker login harbor.blockgateway.net:8081 -u ${HARBOR_USER} -p ${HARBOR_PASS}
-            docker push harbor.blockgateway.net:8081/library/${DOCKER_IMAGE}:${BUILD_NUMBER}
-          '''
+          script {
+            def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+            sh "docker login ${HARBOR_REGISTRY} -u ${HARBOR_USER} -p ${HARBOR_PASS}"
+            docker.image(imageName).push()
+          }
         }
       }
     }
+    // stage('Harbor Push') {
+    //   steps {
+    //     withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]){
+    //       sh '''
+    //         docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} harbor.blockgateway.net:8081/library/${DOCKER_IMAGE}:${BUILD_NUMBER}
+    //         docker login harbor.blockgateway.net:8081 -u ${HARBOR_USER} -p ${HARBOR_PASS}
+    //         docker push harbor.blockgateway.net:8081/library/${DOCKER_IMAGE}:${BUILD_NUMBER}
+    //       '''
+    //     }
+    //   }
+    // }
 //     stage('Deploy to EC2') {
 //       steps {
 //         sshagent([env.EC2_SSH_CRED]) {
