@@ -8,17 +8,18 @@ pipeline {
         git url: 'https://github.com/DrGhost-Dev/jenkins-test-server.git', branch: 'main'
       }
     }
-    // stage('Docker Build & Push') {
-		// 	environment {
-  	// 		DOCKER_IMAGE = "mainnet-node"
-		// 	}
-    //   steps {
-    //     sh '''
-    //       docker build -t ${DOCKER_IMAGE}:latest .
-    //       docker push ${DOCKER_IMAGE}:latest
-    //     '''
-    //   }
-    // }
+    stage('Docker Build & Harbor Push') {
+			environment {
+  			DOCKER_IMAGE = "mainnet-node"
+        BUILD_NUMBER = "v1"
+			}
+      steps {
+        sh '''
+          docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
+          docker build -t ${DOCKER_IMAGE}:latest .
+        '''
+      }
+    }
 //     stage('Deploy to EC2') {
 //       steps {
 //         sshagent([env.EC2_SSH_CRED]) {
