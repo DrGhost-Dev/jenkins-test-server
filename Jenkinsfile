@@ -22,12 +22,10 @@ pipeline {
     }
     stage('Harbor Push') {
       steps {
-        environment {
-          HARBOR_CREDS = credentials('Harbor')
-        }
+        withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]) {
         sh '''
           docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} harbor.blockgateway.net:8081/library/cicd:${BUILD_NUMBER} .
-          docker login harbor.blockgateway.net:8081 -u ${HARBOR_CREDS_USR} -p ${HARBOR_CREDS_PSW}
+          docker login harbor.blockgateway.net:8081 -u ${HARBOR_USER} -p ${HARBOR_PASS}
           docker push harbor.blockgateway.net:8081/library/cicdtest:${BUILD_NUMBER}
         '''
       }
