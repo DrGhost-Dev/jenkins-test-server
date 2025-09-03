@@ -24,7 +24,7 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]){
           sh '''
-            docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} harbor.blockgateway.net:8081/library/cicd:${BUILD_NUMBER} .
+            docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} harbor.blockgateway.net:8081/library/cicd:${BUILD_NUMBER}
             docker login harbor.blockgateway.net:8081 -u ${HARBOR_USER} -p ${HARBOR_PASS}
             docker push harbor.blockgateway.net:8081/library/cicdtest:${BUILD_NUMBER}
           '''
