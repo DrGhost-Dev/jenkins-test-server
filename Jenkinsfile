@@ -26,7 +26,7 @@ pipeline {
           sh '''
             docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} harbor.blockgateway.net:8081/library/${DOCKER_IMAGE}:${BUILD_NUMBER}
             docker login harbor.blockgateway.net:8081 -u ${HARBOR_USER} -p ${HARBOR_PASS}
-            docker push harbor.blockgateway.net:8081/library/cicdtest:${BUILD_NUMBER}
+            docker push harbor.blockgateway.net:8081/library/${DOCKER_IMAGE}:${BUILD_NUMBER}
           '''
         }
       }
