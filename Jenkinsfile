@@ -14,44 +14,44 @@ pipeline {
         git url: 'https://github.com/DrGhost-Dev/jenkins-test-server.git', branch: 'main'
       }
     }
-    // stage('Docker Image Build') {
-    //   steps {
-    //     sh '''
-    //       docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
-    //       docker build -t ${DOCKER_IMAGE}:latest .
-    //     '''
-    //   }
-    // }
     stage('Docker Image Build') {
       steps {
-        script {
-          def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-          docker.build(imageName)
-        }
+        sh '''
+          docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
+          docker build -t ${DOCKER_IMAGE}:latest .
+        '''
       }
     }
-    stage('Push to Harbor') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]){
-          script {
-            def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-            sh "docker login ${HARBOR_REGISTRY} -u ${HARBOR_USER} -p ${HARBOR_PASS}"
-            docker.image(imageName).push()
-          }
-        }
-      }
-    }
-    // stage('Harbor Push') {
+    // stage('Docker Image Build') {
     //   steps {
-    //     withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]){
-    //       sh '''
-    //         docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} harbor.blockgateway.net:8081/library/${DOCKER_IMAGE}:${BUILD_NUMBER}
-    //         docker login harbor.blockgateway.net:8081 -u ${HARBOR_USER} -p ${HARBOR_PASS}
-    //         docker push harbor.blockgateway.net:8081/library/${DOCKER_IMAGE}:${BUILD_NUMBER}
-    //       '''
+    //     script {
+    //       def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+    //       docker.build(imageName)
     //     }
     //   }
     // }
+    // stage('Push to Harbor') {
+    //   steps {
+    //     withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]){
+    //       script {
+    //         def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+    //         sh "docker login ${HARBOR_REGISTRY} -u ${HARBOR_USER} -p ${HARBOR_PASS}"
+    //         docker.image(imageName).push()
+    //       }
+    //     }
+    //   }
+    // }
+    stage('Push to Harbor') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]){
+          sh '''
+            docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} harbor.blockgateway.net:8081/library/${DOCKER_IMAGE}:${BUILD_NUMBER}
+            docker login harbor.blockgateway.net:8081 -u ${HARBOR_USER} -p ${HARBOR_PASS}
+            docker push harbor.blockgateway.net:8081/library/${DOCKER_IMAGE}:${BUILD_NUMBER}
+          '''
+        }
+      }
+    }
 //     stage('Deploy to EC2') {
 //       steps {
 //         sshagent([env.EC2_SSH_CRED]) {
