@@ -1,5 +1,9 @@
 pipeline {
 	agent any
+  environment {
+    DOCKER_IMAGE = "mainnet-node"
+    BUILD_NUMBER = "v1"
+	}
 
   stages {
     stage('Checkout') {
@@ -8,15 +12,23 @@ pipeline {
         git url: 'https://github.com/DrGhost-Dev/jenkins-test-server.git', branch: 'main'
       }
     }
-    stage('Docker Build & Harbor Push') {
-			environment {
-  			DOCKER_IMAGE = "mainnet-node"
-        BUILD_NUMBER = "v1"
-			}
+    stage('Docker Image Build') {
       steps {
         sh '''
           docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
           docker build -t ${DOCKER_IMAGE}:latest .
+        '''
+      }
+    }
+    stage('Harbor Push') {
+      steps {
+        environment {
+          HARBOR_CREDS = credentials('Harbor')
+        }
+        sh '''
+          docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} harbor.blockgateway.net:8081/library/cicd:${BUILD_NUMBER} .
+          docker login harbor.blockgateway.net:8081 -u ${HARBOR_CREDS_USR} -p ${HARBOR_CREDS_PSW}
+          docker push harbor.blockgateway.net:8081/library/cicdtest:${BUILD_NUMBER}
         '''
       }
     }
