@@ -7,5 +7,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`abcdedServer is running on http://0.0.0.0:${PORT}`);
+  console.log(`abcdeㄷdServer is running on http://0.0.0.0:${PORT}`);
 });
