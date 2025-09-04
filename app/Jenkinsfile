@@ -83,7 +83,7 @@ pipeline {
                 echo "Working directory: $CURRENT_DIR"
                 
                 # ansible-navigator 실행 (절대 경로 사용)
-                ansible-navigator run $CURRENT_DIR/playbook.yml \
+                ./.venv/bin/ansible-navigator run $CURRENT_DIR/playbook.yml \
                     -i $CURRENT_DIR/inventory.yml \
                     --mode stdout \
                     --execution-environment-image your-ee-image:latest \
