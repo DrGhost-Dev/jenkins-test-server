@@ -85,7 +85,7 @@ pipeline {
                 ./.venv/bin/ansible-navigator run $CURRENT_DIR/playbook.yml \
                     -i $CURRENT_DIR/inventory.yml \
                     --mode stdout \
-                    --execution-environment-volume-mounts $CURRENT_DIR:$CURRENT_DIR:Z \
+                    --execution-environment-volume-mounts $CURRENT_DIR:/runner/project:Z \
                     -vvv
           '''
         }
