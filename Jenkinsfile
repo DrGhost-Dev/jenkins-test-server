@@ -14,34 +14,34 @@ pipeline {
         git url: 'https://github.com/DrGhost-Dev/jenkins-test-server.git', branch: 'main'
       }
     }
-    stage('Docker Image Build') {
-      steps {
-        sh '''
-          docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
-          docker build -t ${DOCKER_IMAGE}:latest .
-        '''
-      }
-    }
-
     // stage('Docker Image Build') {
     //   steps {
-    //     script {
-    //       def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-    //       docker.build(imageName)
-    //     }
+    //     sh '''
+    //       docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
+    //       docker build -t ${DOCKER_IMAGE}:latest .
+    //     '''
     //   }
     // }
-    // stage('Push to Harbor') {
-    //   steps {
-    //     withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]){
-    //       script {
-    //         def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-    //         sh "docker login ${HARBOR_REGISTRY} -u ${HARBOR_USER} -p ${HARBOR_PASS}"
-    //         docker.image(imageName).push()
-    //       }
-    //     }
-    //   }
-    // }
+
+    stage('Docker Image Build') {
+      steps {
+        script {
+          def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+          docker.build(imageName)
+        }
+      }
+    }
+    stage('Push to Harbor') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]){
+          script {
+            def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+            sh "docker login ${HARBOR_REGISTRY} -u ${HARBOR_USER} -p ${HARBOR_PASS}"
+            docker.image(imageName).push()
+          }
+        }
+      }
+    }
 
     // stage('Push to Harbor') {
     //   steps {
