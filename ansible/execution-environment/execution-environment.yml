@@ -22,7 +22,5 @@ additional_build_steps:
     - RUN sudo dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
     - RUN sudo dnf -y install vault
     - RUN dnf install -y sudo dpkg curl diffutils glibc
-    - RUN curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_arm64/session-manager-plugin.rpm" -o "/tmp/session-manager-plugin.rpm"
-    - RUN dnf install -y /tmp/session-manager-plugin.rpm && rm -f /tmp/session-manager-plugin.rpm
-   # AWS CLI 설치 명령어. 디버깅 할 때 필요할 것 같아서 삭제 안함
+    - RUN sudo dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm   # AWS CLI 설치 명령어. 디버깅 할 때 필요할 것 같아서 삭제 안함
    #  - RUN dnf install -y unzip && curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip aws

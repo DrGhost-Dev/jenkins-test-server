@@ -38,7 +38,7 @@ pipeline {
         }
       }
     }
-
+    // 하드 코딩 버전
     // stage('Docker Image Build') {
     //   steps {
     //     sh '''
@@ -60,33 +60,21 @@ pipeline {
     //   }
     // }
 
-//     stage('Deploy to EC2') {
-//       steps {
-//         sshagent([env.EC2_SSH_CRED]) {
-//           sh '''
-//             ssh -o StrictHostKeyChecking=no ${EC2_HOST} "
-//               set -e
-//               if command -v docker >/dev/null 2>&1; then
-//                 echo 'Docker-based deploy'
-//                 if sudo docker ps -a | grep -q 'myapp'; then
-//                   sudo docker stop myapp || true
-//                   sudo docker rm myapp || true
-//                 fi
-//                 sudo docker pull ${DOCKER_IMAGE}:latest
-//                 sudo docker run -d --name myapp -p 80:8080 ${DOCKER_IMAGE}:latest
-//               else
-//                 echo 'Package-based deploy (example)'
-//                 sudo systemctl stop myapp || true
-//                 sudo mkdir -p /opt/myapp
-//                 # rsync/scp artifacts if needed
-//                 sudo systemctl start myapp
-//               fi
-//             "
-//           '''
-//         }
-//       }
-//     }
-//   }
+    stage('Deploy to EC2') {
+      steps {
+        dir('app'){
+          sh '''
+            source .venv/bin/activate
+            pip3 install ansible-navigator
+            pip3 install ansible-builder
+            deactivate
+          '''
+        }
+
+      }
+    }
+  }
+
 //   post {
 //     success { echo 'Deployment success' }
 //     failure { echo 'Deployment failed' }
