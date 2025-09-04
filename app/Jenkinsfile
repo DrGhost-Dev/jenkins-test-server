@@ -72,7 +72,7 @@ pipeline {
                 ls -la
                 
                 # Python 가상환경 설정
-                #python3 -m venv .venv
+                python -m venv .venv
                 
                 # ansible-navigator 설치
                 ./.venv/bin/pip install ansible-navigator ansible-builder
