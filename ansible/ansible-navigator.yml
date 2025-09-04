@@ -9,6 +9,7 @@ ansible-navigator:
         dest: "/ansible"
       - src: "."
         dest: "/runner/project"
+        options: "Z"
     environment-variables:
       pass:
         - VAULT_ADDR
