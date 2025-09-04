@@ -38,7 +38,7 @@ pipeline {
         }
       }
     }
-    // 하드 코딩 버전
+    // -------------- 하드 코딩 버전 ---------------
     // stage('Docker Image Build') {
     //   steps {
     //     sh '''
@@ -59,18 +59,17 @@ pipeline {
     //     }
     //   }
     // }
+    // -------------------------------------------------
 
-    // stage('Deploy to EC2') {
-    //   steps {
-    //     dir('ansible'){
-    //       sh '''
-    //         source .venv/bin/activate
-    //         ansible-navigator run playbook.yml -i inventory.yml --mode stdout -vvv
-    //         deactivate
-    //       '''
-    //     }
-    //   }
-    // }
+    stage('Deploy to EC2') {
+      steps {
+        dir('ansible'){
+          sh '''
+            ansible-navigator run playbook.yml -i inventory.yml --mode stdout -vvv
+          '''
+        }
+      }
+    }
   
 
 //   post {
