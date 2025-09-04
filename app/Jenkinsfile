@@ -73,10 +73,9 @@ pipeline {
                 
                 # Python 가상환경 설정
                 python3 -m venv .venv
-                source .venv/bin/activate
                 
                 # ansible-navigator 설치
-                pip install ansible-navigator ansible-builder
+                ./.venv/bin/pip install ansible-navigator ansible-builder
                 
                 # 현재 작업 디렉토리 확인
                 CURRENT_DIR=$(pwd)
@@ -86,8 +85,6 @@ pipeline {
                 ./.venv/bin/ansible-navigator run $CURRENT_DIR/playbook.yml \
                     -i $CURRENT_DIR/inventory.yml \
                     --mode stdout \
-                    --execution-environment-image your-ee-image:latest \
-                    --pull-policy missing \
                     -vvv
           '''
         }
