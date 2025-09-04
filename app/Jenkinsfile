@@ -64,8 +64,7 @@ pipeline {
     stage('Deploy to EC2') {
       steps {
         dir('ansible'){
-          sh '''
-            !/bin/bash
+          bash '''
             python3 -m venv .venv
             source .venv/bin/activate
             ansible-navigator run playbook.yml -i inventory.yml --mode stdout -vvv
