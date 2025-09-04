@@ -23,14 +23,14 @@ pipeline {
     //   }
     // }
 
-    // stage('Docker Image Build') {
-    //   steps {
-    //     script {
-    //       def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-    //       docker.build(imageName)
-    //     }
-    //   }
-    // }
+    stage('Docker Image Build') {
+      steps {
+        script {
+          def imageName = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+          docker.build(imageName)
+        }
+      }
+    }
     // stage('Push to Harbor') {
     //   steps {
     //     withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'HARBOR_USER', passwordVariable: 'HARBOR_PASS')]){
