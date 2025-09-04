@@ -64,8 +64,6 @@ pipeline {
     stage('Deploy to EC2') {
       steps {
         sh '''
-          cd ansible
-          echo pwd
           python3 -m venv .venv
           ./.venv/bin/pip install ansible-navigator
           ./.venv/bin/pip install ansible-builder
