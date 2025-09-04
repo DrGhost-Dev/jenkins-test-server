@@ -60,18 +60,17 @@ pipeline {
     //   }
     // }
 
-    // stage('Deploy to EC2') {
-    //   steps {
-    //     dir('app'){
-    //       sh '''
-    //         source .venv/bin/activate
-    //         pip3 install ansible-navigator
-    //         pip3 install ansible-builder
-    //         deactivate
-    //       '''
-    //     }
-    //   }
-    // }
+    stage('Deploy to EC2') {
+      steps {
+        dir('ansible'){
+          sh '''
+            source .venv/bin/activate
+            ansible-navigator run playbook.yml -i inventory.yml --mode stdout -vvv
+            deactivate
+          '''
+        }
+      }
+    }
   
 
 //   post {
