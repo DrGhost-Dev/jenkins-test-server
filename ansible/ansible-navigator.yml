@@ -7,8 +7,8 @@ ansible-navigator:
     volume-mounts:
       - src: "."
         dest: "/ansible"
-      - src: "."
-        dest: "/runner/project"
+      - src: "{{ ansible_navigator.execution_environment.volume_mounts.0.src }}"
+        dest: "{{ ansible_navigator.execution_environment.volume_mounts.0.src }}"
         options: "Z"
     environment-variables:
       pass:
