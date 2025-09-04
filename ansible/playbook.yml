@@ -1,0 +1,137 @@
+# - name: Prepare - Fetch AWS credentials from Vault
+#   hosts: localhost
+#   connection: local
+#   vars:
+#     # 실제로 운영을 할 때는 validate_certs을 설정해 주어야 한다.
+#     aws_access_key: "{{ lookup('community.hashi_vault.vault_kv1_get', 'access', engine_mount_point='aws', validate_certs=false) }}"
+#     aws_secret_key: "{{ lookup('community.hashi_vault.vault_kv1_get', 'secret', engine_mount_point='aws', validate_certs=false) }}"
+
+#   tasks:
+#     - name: Ensure .aws directory exists
+#       ansible.builtin.file:
+#         path: "~/.aws"
+#         state: directory
+#         mode: '0700'
+
+#     - name: Add a new profile to the credentials file
+#       ansible.builtin.ini_file:
+#         path: "/runner/.aws/credentials"
+#         section: "default"
+#         option: aws_access_key_id
+#         value: "{{ aws_access_key.secret.AWS_ACCESS_KEY_ID }}"
+#         mode: '0600'
+#       no_log: true
+
+#     - name: Add secret key for the new profile
+#       ansible.builtin.ini_file:
+#         path: "/runner/.aws/credentials"
+#         section: "default"
+#         option: aws_secret_access_key
+#         value: "{{ aws_secret_key.secret.AWS_SECRET_ACCESS_KEY }}"
+#         mode: '0600'
+#       no_log: true
+
+- name: Configure All Servers
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update apt package cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Add Docker GPG apt key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker apt repository
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: Install required system packages
+      ansible.builtin.apt:
+        name:
+          - net-tools
+          - curl
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - python3
+          - python3-pip
+          - docker-compose-plugin
+        state: present
+
+    - name: Start and enable Docker service
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Add ubuntu user to the docker group
+      ansible.builtin.user:
+        name: ubuntu
+        groups: docker
+        append: true
+
+    - name: Copy docker-compose file to remote host
+      ansible.builtin.copy:
+        src: /ansible/docker-compose.yml
+        dest: /home/ubuntu/docker-compose.yml
+        mode: "0600"
+
+    - name: Run docker-compose up
+      community.docker.docker_compose_v2:
+        project_src: /home/ubuntu/
+        state: present
+        scale:
+          mainnet: 3
+
+- name: Configure All Servers
+  hosts: i-02d29e6c19b36044d
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update apt package cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Add Docker GPG apt key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker apt repository
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: Install required system packages
+      ansible.builtin.apt:
+        name:
+          - net-tools
+          - curl
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - python3
+          - python3-pip
+          - docker-compose-plugin
+        state: present
+
+    - name: Start and enable Docker service
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Add ubuntu user to the docker group
+      ansible.builtin.user:
+        name: ubuntu
+        groups: docker
+        append: true

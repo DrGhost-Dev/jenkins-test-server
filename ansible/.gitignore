@@ -1,0 +1,6 @@
+.ansible
+.venv
+.vscode
+
+execution-environment/context
+test.yml

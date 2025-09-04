@@ -1,0 +1,9 @@
+curl
+unzip
+openssh-clients
+sshpass
+less
+sudo
+dpkg
+diffutils
+glibc

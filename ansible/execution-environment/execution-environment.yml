@@ -1,0 +1,28 @@
+version: 3
+
+images:
+  base_image:
+    name: quay.io/fedora/fedora:42
+
+dependencies:
+  ansible_core:
+    package_pip: ansible-core==2.15.12
+  ansible_runner:
+    package_pip: ansible-runner
+  system: bindep.txt
+  python:
+    - boto3==1.34.4
+    - botocore==1.34.4
+  galaxy: requirements.yml
+
+additional_build_steps:
+  prepend_base:
+    - RUN dnf install -y python3 python3-pip python3-libdnf5 
+    - RUN sudo dnf install -y dnf-plugins-core
+    - RUN sudo dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+    - RUN sudo dnf -y install vault
+    - RUN dnf install -y sudo dpkg curl diffutils glibc
+    - RUN curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_arm64/session-manager-plugin.rpm" -o "/tmp/session-manager-plugin.rpm"
+    - RUN dnf install -y /tmp/session-manager-plugin.rpm && rm -f /tmp/session-manager-plugin.rpm
+   # AWS CLI 설치 명령어. 디버깅 할 때 필요할 것 같아서 삭제 안함
+   #  - RUN dnf install -y unzip && curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip aws

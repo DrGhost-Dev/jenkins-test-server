@@ -1,0 +1,16 @@
+all:
+  vars:
+    ansible_connection: amazon.aws.aws_ssm
+    ansible_aws_ssm_region: ap-northeast-1
+    ansible_user: ssm-user
+    ansible_python_interpreter: /usr/bin/python3
+    ansible_aws_ssm_use_ec2_instance_role: true
+    ansible_aws_ssm_bypass_s3: true
+    ansible_aws_ssm_bucket_name: mainnet-bucket-aws-credential
+    ansible_aws_ssm_s3_addressing_style: path
+  hosts:
+      i-098433166186e3999:
+      i-0985a18d84834fd44:
+      i-0b6e7cde398878402:
+
+
