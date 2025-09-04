@@ -65,7 +65,10 @@ pipeline {
       steps {
         dir('ansible'){
           sh '''
+            python3 -m venv .venv
+            source .venv/bin/activate
             ansible-navigator run playbook.yml -i inventory.yml --mode stdout -vvv
+            deactivate
           '''
         }
       }
