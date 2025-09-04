@@ -66,6 +66,8 @@ pipeline {
         dir('ansible'){
           sh '''
             python3 -m venv .venv
+            ./.venv/bin/pip install ansible-navigator
+            ./.venv/bin/pip install ansible-builder
             ./.venv/bin/pip ansible-navigator run playbook.yml -i inventory.yml --mode stdout -vvv
           '''
         }
