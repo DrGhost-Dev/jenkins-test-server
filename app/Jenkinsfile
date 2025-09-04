@@ -84,6 +84,7 @@ pipeline {
                 # ansible-navigator 실행 (절대 경로 사용)
                 ./.venv/bin/ansible-navigator run $CURRENT_DIR/playbook.yml \
                     -i $CURRENT_DIR/inventory.yml \
+                    --execution-environment true \
                     --mode stdout \
                     --execution-environment-volume-mounts "$CURRENT_DIR:/runner/project:Z" \
                     -vvv
