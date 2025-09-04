@@ -60,20 +60,19 @@ pipeline {
     //   }
     // }
 
-    stage('Deploy to EC2') {
-      steps {
-        dir('app'){
-          sh '''
-            source .venv/bin/activate
-            pip3 install ansible-navigator
-            pip3 install ansible-builder
-            deactivate
-          '''
-        }
-
-      }
-    }
-  }
+    // stage('Deploy to EC2') {
+    //   steps {
+    //     dir('app'){
+    //       sh '''
+    //         source .venv/bin/activate
+    //         pip3 install ansible-navigator
+    //         pip3 install ansible-builder
+    //         deactivate
+    //       '''
+    //     }
+    //   }
+    // }
+  
 
 //   post {
 //     success { echo 'Deployment success' }
