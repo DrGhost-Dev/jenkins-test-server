@@ -1,6 +1,6 @@
 ansible-navigator:
   execution-environment:
-    image: mainnet_ansible:v1
+    image: harbor.blockgateway.net:8081/library/mainnet_ansible:v1
     pull:
       policy: never
     volume-mounts:
