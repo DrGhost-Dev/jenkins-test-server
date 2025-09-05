@@ -65,7 +65,7 @@ pipeline {
       steps {
         dir('ansible'){
           sh '''
-            chown :docker playbook.yml
+            sudo chown :docker playbook.yml
           '''
         }
       }
