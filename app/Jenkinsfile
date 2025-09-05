@@ -69,7 +69,7 @@ pipeline {
           pwd
           ls -l playbook.yml
           cat ansible-navigator.yml
-          ./.venv/bin/ansible-navigator run /var/jenkins_home/workspace/jenkins-test/ansible/playbook.yml -i /var/jenkins_home/workspace/jenkins-test/ansible/inventory.yml --ee false --mode stdout -vvv
+          ./.venv/bin/ansible-navigator run /var/jenkins_home/workspace/jenkins-test/ansible/playbook.yml -i /var/jenkins_home/workspace/jenkins-test/ansible/inventory.yml --mode stdout -vvv
           '''
         }
       }
