@@ -61,15 +61,15 @@ pipeline {
     // }
     // -------------------------------------------------
 
-    // stage('Deploy to EC2') {
-    //   steps {
-    //     sh '''
-    //     python3 -m venv .venv
-    //     ./.venv/bin/pip install ansible
-    //     ./.venv/bin/ansible-navigator run -i inventory.yml playbook.yml --mode stdout -vvv
-    //     '''
-    //   }
-    // }
+    stage('Deploy to EC2') {
+      steps {
+        sh '''
+        python3 -m venv .venv
+        ./.venv/bin/pip install ansible
+        ./.venv/bin/ansible-playbook run -i inventory.yml playbook.yml --mode stdout -vvv
+        '''
+      }
+    }
   
 
 //   post {
