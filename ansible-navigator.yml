@@ -7,8 +7,7 @@ ansible-navigator:
     volume-mounts:
       - src: "."
         dest: "/ansible"
-      - src: /var/jenkins_home/workspace/jenkins-test/ansible
-        dest: /ansible
+
     # environment-variables:
     #   pass:
     #     - VAULT_ADDR
