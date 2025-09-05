@@ -61,15 +61,15 @@ pipeline {
     // }
     // -------------------------------------------------
 
-    stage('Deploy to EC2') {
-      steps {
-        dir('ansible'){
-          sh '''
-            sudo chown :docker playbook.yml
-          '''
-        }
-      }
-    }
+    // stage('Deploy to EC2') {
+    //   steps {
+    //     dir('ansible'){
+    //       sh '''
+    //         sudo chown :docker playbook.yml
+    //       '''
+    //     }
+    //   }
+    // }
   
 
 //   post {
