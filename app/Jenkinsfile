@@ -64,7 +64,7 @@ pipeline {
     stage('Deploy to EC2') {
       steps {
         sh '''
-        ./.venv/bin/ansible-navigator run playbook.yml -i ansible/inventory.yml --mode stdout -vvv
+        ./.venv/bin/ansible-navigator run playbook.yml -i inventory.yml --mode stdout -vvv
         '''
       }
     }
