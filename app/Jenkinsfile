@@ -61,15 +61,19 @@ pipeline {
     // }
     // -------------------------------------------------
 
-    // stage('Deploy to EC2') {
-    //   steps {
-    //     dir('ansible'){
-    //       sh '''
-    //         sudo chown :docker playbook.yml
-    //       '''
-    //     }
-    //   }
-    // }
+    stage('Deploy to EC2') {
+      steps {
+        dir('ansible'){
+          sh '''
+          cd /var/jenkins_home/workspace/jenkins-test/ansible
+          pwd
+          ls -l playbook.yml
+          cat ansible-navigator.yml
+          ./.venv/bin/ansible-navigator run /var/jenkins_home/workspace/jenkins-test/ansible/playbook.yml -i /var/jenkins_home/workspace/jenkins-test/ansible/inventory.yml --ee false --mode stdout -vvv
+          '''
+        }
+      }
+    }
   
 
 //   post {
