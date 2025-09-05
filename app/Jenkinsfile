@@ -63,15 +63,9 @@ pipeline {
 
     stage('Deploy to EC2') {
       steps {
-        dir('ansible'){
-          sh '''
-          cd /var/jenkins_home/workspace/jenkins-test/ansible
-          pwd
-          ls -l playbook.yml
-          cat ansible-navigator.yml
-          ./.venv/bin/ansible-navigator run playbook.yml -i inventory.yml --mode stdout -vvv
-          '''
-        }
+        sh '''
+        ./.venv/bin/ansible-navigator run playbook.yml -i ansible/inventory.yml --mode stdout -vvv
+        '''
       }
     }
   
