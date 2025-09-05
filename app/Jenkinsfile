@@ -63,11 +63,13 @@ pipeline {
 
     stage('Deploy to EC2') {
       steps {
-        sh '''
-        python3 -m venv .venv
-        ./.venv/bin/pip install ansible
-        ./.venv/bin/ansible-playbook -i inventory.yml playbook.yml
-        '''
+        dir('ansible'){
+          sh '''
+          python3 -m venv .venv
+          ./.venv/bin/pip install ansible
+          ./.venv/bin/ansible-playbook -i inventory.yml playbook.yml
+          '''
+        }
       }
     }
   
