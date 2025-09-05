@@ -65,29 +65,7 @@ pipeline {
       steps {
         dir('ansible'){
           sh '''
-                # 디버깅 정보
-                echo "=== Current directory ==="
-                pwd
-                echo "=== Files in ansible directory ==="
-                ls -la
-                
-                # Python 가상환경 설정
-                python -m venv .venv
-                
-                # ansible-navigator 설치
-                ./.venv/bin/pip install ansible-navigator ansible-builder
-                
-                # 현재 작업 디렉토리 확인
-                CURRENT_DIR=$(pwd)
-                echo "Working directory: $CURRENT_DIR"
-                
-                # ansible-navigator 실행 (절대 경로 사용)
-                ./.venv/bin/ansible-navigator run $CURRENT_DIR/playbook.yml \
-                    -i $CURRENT_DIR/inventory.yml \
-                    #--execution-environment true \
-                    --mode stdout \
-                    #--execution-environment-volume-mounts "$CURRENT_DIR:/runner/project:Z" \
-                    -vvv
+            chown :docker playbook.yml
           '''
         }
       }
