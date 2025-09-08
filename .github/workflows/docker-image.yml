@@ -25,4 +25,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true 
-        tags: harbor.blockgateway.net/library/test:$(date +%s)
+        tags: harbor.blockgateway.net/library/test:v1
