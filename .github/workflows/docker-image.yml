@@ -3,16 +3,26 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    
+    # 1. Harbor 레지스트리에 로그인하는 단계 추가
+    - name: Login to Harbor
+      uses: docker/login-action@v3
+      with:
+        registry: harbor.blockgateway.net:8082
+        username: ${{ secrets.HARBOR_USERNAME }}
+        password: ${{ secrets.HARBOR_PASSWORD }}
+
+    - name: Build and push the Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true 
+        tags: harbor.blockgateway.net:8081/library/test:$(date +%s)
