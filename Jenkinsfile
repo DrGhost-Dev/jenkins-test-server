@@ -65,10 +65,7 @@ pipeline {
     //   steps {
     //     dir('ansible'){
     //       sh '''
-    //       python3 -m venv .venv
-    //       ./.venv/bin/pip install ansible-navigator
-    //       ./.venv/bin/ansible-galaxy collection install community.aws community.docker
-    //       ./.venv/bin/ansible-navigator run playbook.yml -i inventory.yml --mode stdout -vvv
+    //    
     //       '''
     //     }
     //   }

@@ -5,7 +5,7 @@ ansible-navigator:
     pull:
       policy: missing
     volume-mounts:
-      - src: "/var/jenkins_home/workspace/jenkins_test/ansible"
+      - src: "."
         dest: "/ansible"
 
     # environment-variables:
