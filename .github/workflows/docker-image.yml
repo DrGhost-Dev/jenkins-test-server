@@ -52,13 +52,13 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-region: ap-northeast-1
 
       - name: Get AWS Credential from AWS Secrets Manager
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
           secret-ids: |
+            aws-access-key-id, AWS_access_key
             aws-secret-access-key, AWS_SECRET_ACCESS_KEY
           parse-json: true
 
