@@ -1,7 +1,7 @@
 ansible-navigator:
   execution-environment:
     container-engine: docker
-    image: harbor.blockgateway.net:8081/library/ee:v1
+    image: harbor.blockgateway.net/library/ee:v1
     pull:
       policy: missing
     volume-mounts:
