@@ -84,7 +84,7 @@
         mode: "0600"
 
     - name: Run docker-compose up
-      community.docker.docker_compose_v2_exec:
+      community.docker.docker_compose_v2_run:
         project_src: /home/ubuntu/
         state: present
         scale:
