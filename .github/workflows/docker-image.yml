@@ -62,15 +62,11 @@ jobs:
           pip install ansible
           ansible-galaxy collection install community.docker
 
-      # - name: Run Ansible Navigator
-      #   run: |
-      #     ansible-navigator run ansible/playbook.yml \
-      #       -i ansible/inventory.yml \
-      #       --mode stdout
       - name: Run Ansible Navigator
-        uses: actions/checkout@v3
-        with:
-          playbook: ansible/playbook.yml
-          inventory: ansible/inventory.yml
+        run: |
+          ansible-navigator run ansible/playbook.yml \
+            -i ansible/inventory.yml \
+            --mode stdout
+ 
 
 
