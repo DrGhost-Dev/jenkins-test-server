@@ -53,7 +53,7 @@ jobs:
         #uses: aws-actions/configure-aws-credentials@v4
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
-          role-to-assume: arn:aws:iam::868422696150:role/github-actions-deployment-role
+          role-to-assume: arn:aws:iam::868422696150:oidc-provider/token.actions.githubusercontent.com
           aws-region: ap-northeast-1
 
       # - name: Get AWS Credential from AWS Secrets Manager
