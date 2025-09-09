@@ -49,11 +49,11 @@ jobs:
           username: ${{ secrets.HARBOR_USERNAME }}
           password: ${{ secrets.HARBOR_PASSWORD }}
 
-      # - name: Configure AWS Credentials
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     role-to-assume: arn:aws:iam::868422696150:oidc-provider/token.actions.githubusercontent.com
-      #     aws-region: ap-northeast-1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::868422696150:role/github-actions-deployment-role
+          aws-region: ap-northeast-1
 
       # - name: Get AWS Credential from AWS Secrets Manager
       #   uses: aws-actions/aws-secretsmanager-get-secrets@v2
