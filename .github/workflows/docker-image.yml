@@ -51,9 +51,12 @@ jobs:
 
       - name: Install Ansible Collections
         run: |
-          pip install ansible
+          pip install -y ansible
           sudo apt install -y podman python3 python3-pip
-          sudo pip3 install ansible-navigator
+
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install ansible-navigator
 
       # - name: Run Ansible Navigator
       #   run: |
