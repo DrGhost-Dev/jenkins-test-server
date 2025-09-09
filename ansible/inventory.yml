@@ -9,8 +9,8 @@ all:
     ansible_aws_ssm_bucket_name: mainnet-bucket-aws-credential
     ansible_aws_ssm_s3_addressing_style: path
   hosts:
-      i-09cb3751d0dbc89b0:
-      i-0b46bc620874efcb3:
-      i-0aedfca0da36abd81:
+      i-02b4bc54c233844c1:
+      i-083711a9043c2e235:
+      i-0e05e9451e5902be3:
 
 

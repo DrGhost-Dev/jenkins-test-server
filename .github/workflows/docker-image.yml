@@ -52,16 +52,16 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::868422696150:instance-profile/ec2-ssm-instance-profile
+          role-to-assume: arn:aws:iam::868422696150:oidc-provider/token.actions.githubusercontent.com
           aws-region: ap-northeast-1
 
-      - name: Get AWS Credential from AWS Secrets Manager
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2
-        with:
-          secret-ids: |
-            AWS_ACCESS_KEY_ID, AWS_access_key
-            AWS_SECRET_ACCESS_KEY, AWS_SECRET_ACCESS_KEY
-          parse-json: true
+      # - name: Get AWS Credential from AWS Secrets Manager
+      #   uses: aws-actions/aws-secretsmanager-get-secrets@v2
+      #   with:
+      #     secret-ids: |
+      #       AWS_ACCESS_KEY_ID, AWS_access_key
+      #       AWS_SECRET_ACCESS_KEY, AWS_SECRET_ACCESS_KEY
+      #     parse-json: true
 
       - name: Install Ansible Collections And Run Ansible Navigator
         run: |
