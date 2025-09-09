@@ -52,6 +52,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
+          role-to-assume: arn:aws:iam::868422696150:user/terraform-user
           aws-region: ap-northeast-1
 
       - name: Get AWS Credential from AWS Secrets Manager
@@ -76,10 +77,3 @@ jobs:
           ansible-navigator run playbook.yml \
           -i inventory.yml \
           --mode stdout
-
-      # - name: Run Ansible Navigator
-      #   run: |
-      #     cd ansible
-
-
-
