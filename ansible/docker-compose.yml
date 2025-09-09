@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  mainnet:
+    image: node:18-slim
+    expose:
+      - "8000"
+    restart: "no"
+    volumes:
+      # - my-data:/home/ubuntu/data 테스트 용도
+      - ./nethermind_db:/nethermind/nethermind_db
+      - ./logs:/nethermind/logs
+      - ./keystore:/nethermind/keystore
+    # environment:
