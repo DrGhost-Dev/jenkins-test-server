@@ -49,26 +49,18 @@ jobs:
           username: ${{ secrets.HARBOR_USERNAME }}
           password: ${{ secrets.HARBOR_PASSWORD }}
 
-      - name: Install Ansible Navigator
-        run: pip install ansible-navigator
-
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     role-to-assume: arn:aws:iam::868422696150:role/InfraServer
-      #     aws-region: ap-northeast-1
-      - name: Install docker collection
+      - name: Install Ansible Collections
         run: |
-          pip install docker
           pip install ansible
-          ansible-galaxy collection install community.docker
-          ansible-galaxy collection install -r ansible/execution-environment/requirements.yml --force
+          sudo dnf install -y podman python3 python3-pip
+          sudo pip3 install ansible-navigator
 
-      - name: Run Ansible Navigator
-        run: |
-          ansible-navigator run ansible/playbook.yml \
-            -i ansible/inventory.yml \
-            --mode stdout
+      # - name: Run Ansible Navigator
+      #   run: |
+      #     cd ansible
+      #     ansible-navigator run playbook.yml \
+      #       -i inventory.yml \
+      #       --mode stdout
  
 
 
