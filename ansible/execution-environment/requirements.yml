@@ -2,4 +2,5 @@ collections:
   - name: community.aws
   - name: community.hashi_vault
   - name: community.docker
+    version: ">=3.0.0"
   - name: community.general
