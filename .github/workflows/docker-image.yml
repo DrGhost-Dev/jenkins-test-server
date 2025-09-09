@@ -57,6 +57,10 @@ jobs:
       #   with:
       #     role-to-assume: arn:aws:iam::868422696150:role/InfraServer
       #     aws-region: ap-northeast-1
+      - name: Install docker collection
+        run: |
+          pip install ansible
+          ansible-galaxy collection install community.docker
 
       - name: Run Ansible Navigator
         run: |
