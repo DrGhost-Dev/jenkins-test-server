@@ -58,8 +58,8 @@ jobs:
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
           secret-ids: |
-            aws-access-key-id, AWS_access_key
-            aws-secret-access-key, AWS_SECRET_ACCESS_KEY
+            AWS_ACCESS_KEY_ID, AWS_access_key
+            AWS_SECRET_ACCESS_KEY, AWS_SECRET_ACCESS_KEY
           parse-json: true
 
       - name: Install Ansible Collections And Run Ansible Navigator
