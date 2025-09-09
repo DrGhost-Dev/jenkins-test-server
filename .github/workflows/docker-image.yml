@@ -60,7 +60,7 @@ jobs:
       - name: Install docker collection
         run: |
           pip install ansible
-          ansible-galaxy collection install community.docker
+          ansible-galaxy collection install -r execution-environment/requirements.yml
 
       - name: Run Ansible Navigator
         run: |
