@@ -57,13 +57,15 @@ jobs:
           python3 -m venv .venv
           source .venv/bin/activate
           pip install ansible-navigator
+          
+          cd ansible
+          ansible-navigator run playbook.yml \
+          -i inventory.yml \
+          --mode stdout
 
       # - name: Run Ansible Navigator
       #   run: |
       #     cd ansible
-      #     ansible-navigator run playbook.yml \
-      #       -i inventory.yml \
-      #       --mode stdout
- 
+
 
 
