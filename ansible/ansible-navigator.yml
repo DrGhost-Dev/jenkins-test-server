@@ -1,7 +1,7 @@
 ansible-navigator:
   execution-environment:
     container-engine: docker
-    image: 868422696150.dkr.ecr.ap-northeast-1.amazonaws.com/name/testrepo:v1
+    image: harbor.blockgateway.net/library/ee:v1
     pull:
       policy: missing
     volume-mounts:
