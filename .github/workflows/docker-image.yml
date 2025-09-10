@@ -42,12 +42,29 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Login to Harbor
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ secrets.HARBOR_URL }}
-          username: ${{ secrets.HARBOR_USERNAME }}
-          password: ${{ secrets.HARBOR_PASSWORD }}
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Decode AWS Secret Access Key
+        id: decode_account_id
+        run: echo "decoded_key=$(echo ${{ secrets.AWS_ACCOUNT_ID }} | base64 --decode)" >> $GITHUB_OUTPUT
+      
+      - name: Build and push Docker image to ECR
+        env:
+          # ECR 리포지토리 주소를 환경 변수로 설정
+          ECR_REGISTRY: ${{ steps.decode_account_id.outputs.decoded_key  }}.dkr.ecr.ap-northeast-1.amazonaws.com
+          ECR_REPOSITORY: testrepo
+          IMAGE_TAG: v1 # Git 커밋 해시를 태그로 사용
+        run: |
+          docker build -t name/testrepo:v1 .
+          docker tag name/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/name/${ECR_REPOSITORY}:$IMAGE_TAG
+          docker push $ECR_REGISTRY/name/${ECR_REPOSITORY}:IMAGE_TAG
+      # - name: Login to Harbor
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: ${{ secrets.HARBOR_URL }}
+      #     username: ${{ secrets.HARBOR_USERNAME }}
+      #     password: ${{ secrets.HARBOR_PASSWORD }}
       
       - name: Decode AWS Secret Access Key
         id: decode_secret
@@ -59,14 +76,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ steps.decode_secret.outputs.decoded_key }}
           aws-region: ap-northeast-1
-
-      # - name: Get AWS Credential from AWS Secrets Manager
-      #   uses: aws-actions/aws-secretsmanager-get-secrets@v2
-      #   with:
-      #     secret-ids: |
-      #       AWS_ACCESS_KEY_ID, AWS_access_key
-      #       AWS_SECRET_ACCESS_KEY, AWS_SECRET_ACCESS_KEY
-      #     parse-json: true
 
       - name: Install Ansible Collections And Run Ansible Navigator
         run: |
