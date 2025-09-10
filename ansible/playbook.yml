@@ -86,7 +86,7 @@
     - name: Run docker-compose up
       community.docker.docker_compose_v2:
         project_src: /home/ubuntu/
-        state: absent
+        state: present
         services:
           - mainnet
         # scale:
