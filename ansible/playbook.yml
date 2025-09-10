@@ -89,5 +89,5 @@
         state: present
         services:
           - mainnet
-        scale:
-          ubuntu-mainnet: 3
+        # scale:
+        #   mainnet: 3

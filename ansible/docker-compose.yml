@@ -12,3 +12,5 @@ services:
       - ./logs:/nethermind/logs
       - ./keystore:/nethermind/keystore
     # environment:
+    deploy:
+      replicas: 3
