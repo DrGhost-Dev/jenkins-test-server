@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repo
+      uses: actions/checkout@v4
 
     - name: Decode AWS Secret Access Key
       id: decode_secret
@@ -72,10 +73,20 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Decode AWS Secret Access Key
+        id: decode_secret
+        run: echo "decoded_key=$(echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} | base64 --decode)" >> $GITHUB_OUTPUT
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ steps.decode_secret.outputs.decoded_key }}
+          aws-region: ap-northeast-1
+
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
-        with:
-          aws-region: aws-region-1
+
 
       # - name: Decode AWS Secret Access Key
       #   id: decode_account_id
@@ -98,16 +109,16 @@ jobs:
       #     username: ${{ secrets.HARBOR_USERNAME }}
       #     password: ${{ secrets.HARBOR_PASSWORD }}
       
-      - name: Decode AWS Secret Access Key
-        id: decode_secret
-        run: echo "decoded_key=$(echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} | base64 --decode)" >> $GITHUB_OUTPUT
+      # - name: Decode AWS Secret Access Key
+      #   id: decode_secret
+      #   run: echo "decoded_key=$(echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} | base64 --decode)" >> $GITHUB_OUTPUT
       
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ steps.decode_secret.outputs.decoded_key }}
-          aws-region: ap-northeast-1
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ steps.decode_secret.outputs.decoded_key }}
+      #     aws-region: ap-northeast-1
 
       - name: Install Ansible Collections And Run Ansible Navigator
         run: |
